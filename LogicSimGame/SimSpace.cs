@@ -1,50 +1,40 @@
-﻿using LogicSimLib;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace LogicSimGame
+public static class SimSpace
 {
-    public static class SimSpace
+    public static double TickRate = 60; // Ticks pro Sekunde
+    private static double _nextTickTime;
+    private static int _ticksThisSecond = 0;
+    private static double _lastSecondUpdateTime;
+
+    public static void Initialize()
     {
+        _nextTickTime = DateTime.UtcNow.TimeOfDay.TotalSeconds;
+        _lastSecondUpdateTime = _nextTickTime;
+    }
 
-        public static double TickRate = 10;
-        private static double _lastUpdate;
+    public static void Update(GameTime gameTime)
+    {
+        double currentTime = DateTime.UtcNow.TimeOfDay.TotalSeconds;
 
-        public static List<(Gate gate, Vector2 position)> Gates = new();
-        public static List<Wire> Wires = new();
-        public static List<(Port ports, Vector2 position)> Ports = new();
-
-        public static void Update(GameTime gameTime)
+        while (currentTime >= _nextTickTime)
         {
-            double rate = 1.0 / TickRate;
-            double current = gameTime.TotalGameTime.TotalSeconds;
-            if (current - _lastUpdate > rate)
-            {
-                Tick();
-                _lastUpdate = current;
-            }
+            Tick();
+            _nextTickTime += 1.0 / TickRate;
+            _ticksThisSecond++;
         }
 
-        private static void Tick()
+        if (currentTime - _lastSecondUpdateTime >= 1.0)
         {
-            foreach (var (port, position) in Ports)
-            {
-                
-            }
-
-            foreach (var wire in Wires)
-            {
-                
-            }
-
-            foreach (var (gate, position) in Gates)
-            {
-                
-            }
+            Console.WriteLine($"TPS: {_ticksThisSecond}");
+            _ticksThisSecond = 0;
+            _lastSecondUpdateTime = currentTime;
         }
+    }
+
+    private static void Tick()
+    {
+        // Implementiere hier die Logik für jeden Tick
     }
 }
