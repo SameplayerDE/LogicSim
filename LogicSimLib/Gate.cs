@@ -1,6 +1,9 @@
-﻿namespace LogicSimLib;
+﻿using Microsoft.Xna.Framework;
 
-public abstract class Gate
+namespace LogicSimLib;
+
+public abstract class Gate : LogicObject
 {
-    public abstract bool Calculate();
+    public abstract void Calculate();
+    public abstract void Update(GameTime gameTime);
 }

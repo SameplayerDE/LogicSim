@@ -1,19 +1,20 @@
-﻿namespace LogicSimLib.Gates;
+﻿using Microsoft.Xna.Framework;
+
+namespace LogicSimLib.Gates;
 
 public class AndGate : Gate
 {
-    public bool InA;
-    public bool InB;
-    private bool _outA;
+    public Input InA;
+    public Input InB;
+    public Output OutA;
 
-    public bool OutA
+    public override void Calculate()
     {
-        get { return _outA; }
+        OutA.State = InA.State && InB.State;
     }
 
-    public override bool Calculate()
+    public override void Update(GameTime gameTime)
     {
-        _outA = InA && InB;
-        return _outA;
+        
     }
 }

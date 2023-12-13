@@ -1,18 +1,19 @@
-﻿namespace LogicSimLib.Gates;
+﻿using Microsoft.Xna.Framework;
+
+namespace LogicSimLib.Gates;
 
 public class NotGate : Gate
 {
-    public bool InA;
-    private bool _outA;
+    public Input InA;
+    public Output OutA;
 
-    public bool OutA
+    public override void Calculate()
     {
-        get { return _outA; }
+        OutA.State = !InA.State;
     }
 
-    public override bool Calculate()
+    public override void Update(GameTime gameTime)
     {
-        _outA = !InA;
-        return _outA;
+
     }
 }
